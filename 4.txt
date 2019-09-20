@@ -1,0 +1,104 @@
+ install
+
+*su / sudo / administratior privilages required*
+
+  brew tap mongodb/brew              // 
+  brew install mongodb-community@4.2 // MacOS
+  
+  apt install mongodb       // Debian
+  apt-get install mongodb   // Ubuntu 
+  emerge --ask mongodb      // Gentoo
+  yum install mongodb-org   // RHEL
+  
+
+Task 2 - Start the mongo client tool by running “mongo” on the command line
+
+ Before running the command-line inteface you should start a mongo daemon
+
+ Possible service names on a different distros (mongodb|mongod|mongo)
+
+ mongod  // Run a daemon manually
+
+ Run as a service
+ 
+*su / sudo / administratior privilages required*
+
+    brew services start mongo                 // MacOS    
+    systemctl start mongodb                   // SystemD  distros
+    rc-service mongodb start                  // OpenRC   distros
+
+Task 3 – Create a new database called bookStore and a new collection (called “books”) in the database
+
+  use bookStore   // After the first collection save database will be created automatically
+  
+Task 4 - Perform and document (in a word document) the following actions on the collection created and document (in a word document) the commands you used.
+
+
+// You can use .pretty() at the end of each query for more human-readable output
+
+
+(1) Add at least 5 items from 2 categories to the collection; (Use google to find the same of some books that are in the categories you are going to use)
+
+db.books.insertMany([
+{id: 1, name: "The Art of Computer Programming", price: 9.99, description: "The Art of Computer Programming is a comprehensive monograph written by computer scientist Donald Knuth that covers many kinds of programming algorithms and their analysis. Knuth began the project, originally conceived as a single book with twelve chapters, in 1962.", category: "programming" },
+{id: 2, name: "The C Programming Language", price: 11.99, description: "The C Programming Language is a computer programming book written by Brian Kernighan and Dennis Ritchie, the latter of whom originally designed and implemented the language, as well as co-designed the Unix operating system with which development of the language was closely intertwined.", category: "programming"},
+{id: 3, name: "JavaScript: The Good Parts", price: 0.19, description: "Most programming languages contain good and bad parts, but JavaScript has more than its share of the bad, having been developed and released in a hurry before it could be refined.", category: "programming"},
+{id: 4, name: "Learn You a Haskell for Great Good! A Beginner's Guide", price: 49.99, description: "It's all in the name: Learn You a Haskell for Great Good! is a hilarious, illustrated guide to this complex functional language.", category: "programming"},
+{id: 5, name: "Compilers: Principles, Techniques, and Tools", price: 19.86, description: "Compilers: Principles, Techniques, and Tools is a computer science textbook by Alfred V. Aho, Monica S. Lam, Ravi Sethi, and Jeffrey D. Ullman about compiler construction. First published in 1986, it is widely regarded as the classic definitive compiler technology text.", category: "programming"},
+{id: 6, name: "The Unix Programming Environment", price: 19.84, description: "The Unix Programming Environment, first published in 1984 by Prentice Hall, is a book written by Brian W. Kernighan and Rob Pike, both of Bell Labs and considered an important and early document of the Unix operating system.", category: "operating system"},
+{id: 7, name: "Gentoo Handbook", price: 0, description: "Install Gentoo", category: "operating system"},
+{id: 8, name: "The Design of the UNIX Operating System", price: 19.00, description: "This book describes the internal algorithms and the structures that form the basis of the UNIX® operating system and their relationship to the programmer interface. The system description is based on UNIX System V Release 2 supported by AT&T, with some features from Release 3.", category: "operating system"},
+{id: 9, name: "Operating Systems: Three Easy Pieces", price: 15.49, description: "OSTEP (\"oh step\"), or the \"the comet book,\" represents the culmination of years of teaching intro to operating systems to both undergraduates and graduates at the University of Wisconsin-Madison Computer Sciences department for nearly 20 years.", category: "operating system"},
+{id: 10, name: "Introduction to Operating Systems Abstractions Using Plan 9 from Bell Labs", price: 9.99, description: "Using effectively the operating system is very important for anyone working with computers. It canbe the difference between performing most tasks by hand, and asking the computer to perform them.", category: "operating system"}
+]
+);
+
+
+(2) Delete an item from the collection
+
+
+db.books.remove({ id:2 });
+
+
+(3) Update an item in the collection;
+
+
+db.books.update( { id: 1 }, {$set : { price: 4.99 } } );
+
+
+(4) Find and show all the items in the collection;
+
+
+db.books.find({});
+
+
+5) Find and show all items in the collection sorted by name
+
+
+db.books.find().sort( { name: 1 } );
+
+
+(6) Find and show items from a single category
+
+
+db.books.find( {category: "programming"} );
+
+
+(7) Find and show the book with the highest price
+
+
+db.books.find().sort({price: -1}).limit(1);
+
+
+(8) Display total number of book in the collection
+
+
+db.books.count();
+
+
+9) Find and display all items in the collection and set a projection to only display the name and price.
+
+db.books.find({}, {name : 1, price: 1, _id: 0});
+
+
+***ROHAN BANDIL***
